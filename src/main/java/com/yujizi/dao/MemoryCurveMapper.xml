@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yujizi.dao.MemoryCurveMapper">
+    <cache eviction="LRU" flushInterval="60000" size="512" readOnly="true"/>
+
+    <select id="findByID" resultType="MemoryCurve" parameterType="int">
+        select * from memory_curve where id=#{id}
+    </select>
+
+    <select id="findAll" resultType="MemoryCurve">
+        select * from memory_curve
+    </select>
+
+    <insert id="insert" parameterType="com.yujizi.pojo.MemoryCurve">
+        insert into memory_curve(course,created_time,five_mm_later,twenty_mm_later,one_hh_later,nine_hh_later,one_day_later,two_day_later,five_day_later,eight_day_later,
+        fourteen_day_later) values(#{memoryCurve.course},#{memoryCurve.createdTime},#{memoryCurve.fiveMmLater},#{memoryCurve.twentyMmLater},#{memoryCurve.oneHhLater},#{memoryCurve.nineHhLater},#{memoryCurve.oneDayLater},#{memoryCurve.twoDayLater},#{memoryCurve.fiveDayLater},#{memoryCurve.eightDayLater},
+        #{memoryCurve.fourteenDayLater})
+    </insert>
+
+
+
+</mapper>
