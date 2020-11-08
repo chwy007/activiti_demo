@@ -20,15 +20,12 @@ import java.util.List;
  * @Version: 1.0
  */
 @Controller
+@RequestMapping("memoryCurve")
 public class MemoryCurveController {
     @Autowired
     private MemoryCurveService memoryCurveService;
 
-    @RequestMapping("login")
-    @ResponseBody
-    public String login(String course) {
-        return "hello"+course;
-    }
+
 
     @RequestMapping("find/{id}")
     @ResponseBody

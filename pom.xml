@@ -15,9 +15,9 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <spring-version>4.2.5.RELEASE</spring-version>
   </properties>
+
 
   <dependencies>
 
@@ -25,45 +25,45 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
-      <version>4.2.5.RELEASE</version>
+      <version>${spring-version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-beans</artifactId>
-      <version>4.2.5.RELEASE</version>
+      <version>${spring-version}</version>
     </dependency>
 
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
-      <version>4.2.5.RELEASE</version>
+      <version>${spring-version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
-      <version>4.2.5.RELEASE</version>
+      <version>${spring-version}</version>
     </dependency>
 
-
-    <dependency>
-      <groupId>org.activiti</groupId>
-      <artifactId>activiti-engine</artifactId>
-      <version>6.0.0</version>
-    </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-tx</artifactId>
-      <version>4.2.5.RELEASE</version>
+      <version>${spring-version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-aop</artifactId>
-      <version>4.2.5.RELEASE</version>
+      <version>${spring-version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>${spring-version}</version>
     </dependency>
 
     <dependency>
@@ -73,7 +73,11 @@
       <scope>compile</scope>
     </dependency>
 
-
+    <dependency>
+      <groupId>org.activiti</groupId>
+      <artifactId>activiti-engine</artifactId>
+      <version>6.0.0</version>
+    </dependency>
 
     <dependency>
       <groupId>mysql</groupId>
@@ -81,17 +85,6 @@
       <version>8.0.18</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.activiti</groupId>
-      <artifactId>activiti-spring</artifactId>
-      <version>5.14</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-jdbc</artifactId>
-      <version>4.2.5.RELEASE</version>
-    </dependency>
 
     <dependency>
       <groupId>com.alibaba</groupId>
@@ -119,9 +112,36 @@
     </dependency>
 
     <dependency>
+      <groupId>org.activiti</groupId>
+      <artifactId>activiti-spring</artifactId>
+      <version>5.14</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.7.21</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
       <version>1.2.17</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-nop</artifactId>
+      <version>1.7.2</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-all</artifactId>
+      <version>1.7.0</version>
+      <type>pom</type>
     </dependency>
 
 
@@ -163,7 +183,6 @@
     </pluginManagement>
 
     <resources>
-
       <!-- 编译 src/main/java 目录下的 mapper 文件 -->
       <resource>
         <directory>src/main/java</directory>
