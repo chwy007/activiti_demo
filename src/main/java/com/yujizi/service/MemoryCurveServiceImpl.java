@@ -29,6 +29,11 @@ public class MemoryCurveServiceImpl implements MemoryCurveService{
     }
 
     @Override
+    public List<MemoryCurve> findAll() {
+        return memoryCurveMapper.findAll();
+    }
+
+    @Override
     public void insert(String course) {
         MemoryCurve memoryCurve1 = new MemoryCurve();
         memoryCurve1.setCourse(course);
@@ -56,7 +61,9 @@ public class MemoryCurveServiceImpl implements MemoryCurveService{
     }
 
     @Override
-    public List<MemoryCurve> findAll() {
-        return memoryCurveMapper.findAll();
+    public void deleteByID(Integer id) {
+        memoryCurveMapper.deleteByID(id);
     }
+
+
 }

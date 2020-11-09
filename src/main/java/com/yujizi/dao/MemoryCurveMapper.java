@@ -16,6 +16,10 @@ import java.util.List;
  */
 public interface MemoryCurveMapper {
     MemoryCurve findByID(Integer id);
+
     List<MemoryCurve> findAll();
+
     void insert(@Param("memoryCurve") MemoryCurve memoryCurve);
+
+    void deleteByID(Integer id);
 }

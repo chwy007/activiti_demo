@@ -17,6 +17,10 @@
         #{memoryCurve.fourteenDayLater})
     </insert>
 
+    <delete id="deleteByID" parameterType="int">
+        delete from memory_curve where id=#{id}
+    </delete>
+
 
 
 </mapper>

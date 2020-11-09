@@ -15,6 +15,10 @@ import java.util.List;
  */
 public interface MemoryCurveService {
     MemoryCurve findByID(Integer id);
-    void insert(String course);
+
     List<MemoryCurve> findAll();
+
+    void insert(String course);
+
+    void deleteByID(Integer id);
 }

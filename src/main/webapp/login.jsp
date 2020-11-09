@@ -18,6 +18,14 @@
     请输入password:<br><input type="text" name="password" /><br>
     <input type="submit" value="登录">
 </form>
+<br>
+
+<form action="user/register" method="get">
+    请输入name:<br><input type="text" name="username" /><br>
+    请输入password:<br><input type="text" name="password" /><br>
+    <input type="submit" value="注册">
+</form>
+
 
 </body>
 </html>
