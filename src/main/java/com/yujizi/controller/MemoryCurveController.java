@@ -2,6 +2,8 @@ package com.yujizi.controller;
 
 import com.yujizi.pojo.MemoryCurve;
 import com.yujizi.service.MemoryCurveService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,13 +22,14 @@ import java.util.List;
  * @Version: 1.0
  */
 @Controller
+
 @RequestMapping("memoryCurve")
 public class MemoryCurveController {
     @Autowired
     private MemoryCurveService memoryCurveService;
 
 
-
+    @RequiresRoles("manager")
     @RequestMapping("find/{id}")
     @ResponseBody
     public MemoryCurve findByID(@PathVariable Integer id) {
@@ -34,6 +37,7 @@ public class MemoryCurveController {
 
     }
 
+    @RequiresPermissions("first-level")
     @RequestMapping("all")
     @ResponseBody
     public List<MemoryCurve> findAll() {

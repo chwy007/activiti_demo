@@ -26,22 +26,23 @@
         <property name="configLocation" value="classpath:Mybatis-Config.xml"/>
     </bean>
 
-
     <!--shiro相关-->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"></property>
         <property name="loginUrl" value="/login.jsp"></property>
-        <property name="successUrl" value="/index.jsp"></property>
-        <property name="unauthorizedUrl" value="/unauthorize.jsp"></property>
+        <property name="successUrl" value="/index"></property>
+        <property name="unauthorizedUrl" value="/unauthorize"></property>
         <property name="filterChainDefinitions">
             <value>
                 /login = anon
+                <!--                /user/** = perms["second-level"]-->
+                <!--                /user/** =roles["staff"]-->
+                <!--                /memoryCurve/** = perms["first-level"]-->
+                <!--                /memoryCurve/** =roles["manager"]-->
+
                 /** = authc
             </value>
         </property>
-
-
-
     </bean>
 
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
@@ -52,5 +53,4 @@
 
 
     <import resource="activiti.cfg.xml"></import>
-
 </beans>

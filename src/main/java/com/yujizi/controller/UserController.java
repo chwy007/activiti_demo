@@ -3,6 +3,10 @@ package com.yujizi.controller;
 import com.yujizi.pojo.MemoryCurve;
 import com.yujizi.pojo.User;
 import com.yujizi.service.UserService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,11 +25,13 @@ import java.util.List;
  * @Version: 1.0
  */
 @Controller
+
 @RequestMapping("user")
 public class UserController {
     @Autowired
     private UserService userService;
 
+    @RequiresRoles("staff")
     @RequestMapping("find/{id}")
     @ResponseBody
     public User findByID(@PathVariable Integer id) {
@@ -33,6 +39,7 @@ public class UserController {
 
     }
 
+    @RequiresPermissions("second-level")
     @RequestMapping("all")
     @ResponseBody
     public List<User> findAll() {
@@ -42,6 +49,9 @@ public class UserController {
     @RequestMapping("insert")
     @ResponseBody
     public String insert(User user) {
+        Subject subject = SecurityUtils.getSubject();
+        subject.checkPermission("first-level");
+
         userService.insert(user);
         return "success";
     }

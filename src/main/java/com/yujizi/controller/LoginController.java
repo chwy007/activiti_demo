@@ -42,7 +42,15 @@ public class LoginController {
     }
 
 
+    @RequestMapping("index")
+    public String index(){
+        return "index";
+    }
 
+    @RequestMapping("unauthorize")
+    public String unauthorize(){
+        return "unauthorize";
+    }
 
 
 }

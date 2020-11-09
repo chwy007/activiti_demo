@@ -24,4 +24,16 @@
     </bean>
 
 
+
+
+<!--shiro相关 需要写在mvc中，原因是@RequiresPermissions，@RequiresRoles用在controller中-->
+    <bean id="defaultAdvisorAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator">
+        <property name="proxyTargetClass" value="true"></property>
+    </bean>
+
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor"/>
+
+
+
+
 </beans>
