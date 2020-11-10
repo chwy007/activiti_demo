@@ -9,29 +9,37 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-
     <context:component-scan base-package="com.yujizi"/>
-
 
     <context:property-placeholder location="classpath:jdbc.properties"/>
 
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.yujizi.dao"/>
-        <property name="sqlSessionFactoryBeanName" value="sf1"></property>
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="driverClassName" value="${datasource.driverClassName}"/>
+        <property name="url" value="${datasource.url}"/>
+        <property name="username" value="${datasource.user}"/>
+        <property name="password" value="${datasource.password}"/>
     </bean>
 
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.yujizi.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="sf1"/>
+    </bean>
 
     <bean id="sf1" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="configLocation" value="classpath:Mybatis-Config.xml"/>
+        <property name="configLocation" value="classpath:mybatis.cfg.xml"/>
     </bean>
 
     <!--shiro相关-->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-        <property name="securityManager" ref="securityManager"></property>
-        <property name="loginUrl" value="/login.jsp"></property>
-        <property name="successUrl" value="/index"></property>
-        <property name="unauthorizedUrl" value="/unauthorize"></property>
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/login.jsp"/>
+        <property name="successUrl" value="/index"/>
+        <property name="unauthorizedUrl" value="/unauthorize"/>
         <property name="filterChainDefinitions">
             <value>
                 /login = anon
@@ -46,19 +54,19 @@
     </bean>
 
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <property name="realm" ref="realm"></property>
+        <property name="realm" ref="realm"/>
     </bean>
 
     <bean id="realm" class="com.yujizi.utils.MyRealm">
         <property name="credentialsMatcher">
             <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
-                <property name="hashAlgorithmName" value="MD5"></property>
-                <property name="hashIterations" value="3"></property>
+                <property name="hashAlgorithmName" value="MD5"/>
+                <property name="hashIterations" value="3"/>
             </bean>
         </property>
 
     </bean>
 
+    <import resource="classpath:activiti-context.xml"/>
 
-    <import resource="activiti.cfg.xml"></import>
 </beans>

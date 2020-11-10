@@ -31,6 +31,14 @@
     <a id="save" href="#" class="easyui-linkbutton">manager</a>
 </shiro:hasRole>
 
+<h2>权限申请</h2>
+
+<form action="apply" method="get">
+    申请ID：<br><input type="text" name="applyID" /><br>
+    申请权限：<br><input type="text" name="permission" /><br>
+    <input type="submit" value="提交">
+</form>
+
 
 </body>
 </html>

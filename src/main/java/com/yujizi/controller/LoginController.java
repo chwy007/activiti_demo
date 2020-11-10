@@ -52,5 +52,12 @@ public class LoginController {
         return "unauthorize";
     }
 
+    @RequestMapping("manage")
+    public String manage(){
+        return "manage";
+    }
+
+
+
 
 }
