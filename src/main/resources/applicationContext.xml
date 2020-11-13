@@ -43,6 +43,8 @@
         <property name="filterChainDefinitions">
             <value>
                 /login = anon
+                /memoryCurve/** = anon
+                /item/** = anon
                 <!--                /user/** = perms["second-level"]-->
                 <!--                /user/** =roles["staff"]-->
                 <!--                /memoryCurve/** = perms["first-level"]-->

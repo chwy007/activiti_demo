@@ -40,7 +40,7 @@ public class UserController {
 
     }
 
-    @RequiresPermissions("second-level")
+//    @RequiresPermissions("second-level")
     @RequestMapping("all")
     @ResponseBody
     public List<User> findAll() {

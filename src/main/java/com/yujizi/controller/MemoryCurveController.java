@@ -29,7 +29,7 @@ public class MemoryCurveController {
     private MemoryCurveService memoryCurveService;
 
 
-    @RequiresRoles("staff")
+//    @RequiresRoles("staff")
     @RequestMapping("find/{id}")
     @ResponseBody
     public MemoryCurve findByID(@PathVariable Integer id) {
@@ -37,14 +37,14 @@ public class MemoryCurveController {
 
     }
 
-    @RequiresPermissions("second-level")
+//    @RequiresPermissions("second-level")
     @RequestMapping("all")
     @ResponseBody
     public List<MemoryCurve> findAll() {
         return memoryCurveService.findAll();
     }
 
-    @RequiresPermissions("first-level")
+//    @RequiresPermissions("first-level")
     @RequestMapping("insert")
     @ResponseBody
     public String insert(String course) {
@@ -52,7 +52,7 @@ public class MemoryCurveController {
         return "success";
     }
 
-    @RequiresPermissions("first-level")
+//    @RequiresPermissions("first-level")
     @RequestMapping("delete/{id}")
     @ResponseBody
     public String deleteByID(@PathVariable Integer id){
