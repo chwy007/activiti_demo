@@ -6,6 +6,7 @@ import com.yujizi.pojo.ItemQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -54,6 +55,9 @@ public class ItemServiceImpl implements ItemService{
 
     @Override
     public List<Item> selectByExample(ItemQuery example) {
+        ItemQuery.Criteria criteria = example.createCriteria();
+        criteria.andPriceIsNotNull();
+
         return itemDao.selectByExample(example);
     }
 

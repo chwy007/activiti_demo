@@ -20,27 +20,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class LoginController {
 
-    @RequestMapping("login")
-    public String login(String name,String password) {
-        Subject subject= SecurityUtils.getSubject();
-        UsernamePasswordToken token=new UsernamePasswordToken(name,password);
-
-        try {
-            subject.login(token);
-            Object principal = subject.getPrincipal();
-            //登陆成功 将subject存入session
-            subject.getSession().setAttribute("loginUser",principal);
-            return "index";
-
-        }catch (AuthenticationException e){
-            System.out.println("token无效============================");
-            e.printStackTrace();
-
-        }
-
-        return "unauthorize";
+    @RequestMapping("bye")
+    public String bye(){
+        return "bye";
     }
-
 
     @RequestMapping("index")
     public String index(){
@@ -50,11 +33,6 @@ public class LoginController {
     @RequestMapping("unauthorize")
     public String unauthorize(){
         return "unauthorize";
-    }
-
-    @RequestMapping("manage")
-    public String manage(){
-        return "manage";
     }
 
 

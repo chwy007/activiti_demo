@@ -23,13 +23,7 @@ public class MyRealm extends AuthorizingRealm {
     @Autowired
     private UserMapper userMapper;
 
-    @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        info.addStringPermission("second-level");
-        info.addRole("staff");
-        return info;
-    }
+
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
@@ -45,4 +39,14 @@ public class MyRealm extends AuthorizingRealm {
 
         return null;
     }
+
+
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        info.addStringPermission("second-level");
+        info.addRole("staff");
+        return info;
+    }
+
 }

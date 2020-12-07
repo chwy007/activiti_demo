@@ -10,8 +10,8 @@
        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <context:component-scan base-package="com.yujizi"/>
-
-    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <!--  ignore-unresolvable="false"  忽视后续的property-placeholder-->
+    <context:property-placeholder location="classpath:jdbc.properties" ignore-unresolvable="true"/>
 
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <property name="driverClassName" value="${datasource.driverClassName}"/>
@@ -26,10 +26,10 @@
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.yujizi.dao"/>
-        <property name="sqlSessionFactoryBeanName" value="sf1"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 
-    <bean id="sf1" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="classpath:mybatis.cfg.xml"/>
     </bean>
@@ -37,41 +37,86 @@
     <!--shiro相关-->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
-        <property name="loginUrl" value="/login.jsp"/>
+        <property name="loginUrl" value="https://ycw.com/cas/login?service=http://localhost/login"/>
         <property name="successUrl" value="/index"/>
         <property name="unauthorizedUrl" value="/unauthorize"/>
         <property name="filterChainDefinitions">
             <value>
-                /login = anon
-                /memoryCurve/** = anon
-                /item/** = anon
-                <!--                /user/** = perms["second-level"]-->
-                <!--                /user/** =roles["staff"]-->
-                <!--                /memoryCurve/** = perms["first-level"]-->
-                <!--                /memoryCurve/** =roles["manager"]-->
-
+                /bye = anon
+                /logout = logout
+                /login = casFilter
                 /** = authc
             </value>
         </property>
+        <property name="filters">
+            <map>
+                <entry key="logout" value-ref="logout" />
+                <entry key="casFilter" value-ref="casFilter" />
+            </map>
+        </property>
     </bean>
+
+    <!-- rememberMe   -->
+    <bean id="casSubjectFactory" class="org.apache.shiro.cas.CasSubjectFactory" />
 
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="subjectFactory" ref="casSubjectFactory" />
         <property name="realm" ref="realm"/>
+        <property name="sessionManager" ref="sessionManager"/>
+        <property name="cacheManager" ref="shiroCacheManager"/>
     </bean>
 
-    <bean id="realm" class="com.yujizi.utils.MyRealm">
-        <property name="credentialsMatcher">
-            <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
-                <property name="hashAlgorithmName" value="MD5"/>
-                <property name="hashIterations" value="3"/>
-            </bean>
-        </property>
+    <bean id="shiroCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"/>
 
+
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <!-- 设置超时时间 -->
+        <property name="globalSessionTimeout" value="24000000"/>
+        <property name="sessionDAO" ref="shiroSessionDAO"/>
+        <!-- 检测扫描信息时间间隔,单位为毫秒-->
+        <property name="sessionValidationInterval" value="60000"/>
+        <!-- 是否开启扫描 -->
+        <property name="sessionValidationSchedulerEnabled" value="false"/>
+        <!-- 去除服务首次启动后访问首页地址栏带JSESSIONID -->
+        <property name="sessionIdUrlRewritingEnabled" value="false"/>
+        <property name="sessionIdCookie" ref="simpleCookie"/>
+    </bean>
+
+    <bean id="shiroSessionDAO" class="com.yujizi.sessiondao.RedisSessionDao" >
+        <property name="activeSessionsCacheName" value="shiro-activeSessionCache"/>
+        <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
+    </bean>
+
+    <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator "/>
+
+    <bean id="simpleCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg name="name" value="YCW-SHIRO-COOKIE-SID"/>
+        <property name="maxAge" value="604800"/>
+        <property name="httpOnly" value="true"/>
+    </bean>
+
+
+
+
+
+
+    <bean id="realm" class="com.yujizi.utils.MyCasRealm">
+        <property name="casServerUrlPrefix" value="https://ycw.com/cas" />
+        <property name="casService" value="http://localhost/login" />
+    </bean>
+
+    <bean id="casFilter" class="org.apache.shiro.cas.CasFilter">
+        <property name="failureUrl" value="https://ycw.com/cas/login?service=http://localhost/login" />
+    </bean>
+
+    <bean id="logout" class="org.apache.shiro.web.filter.authc.LogoutFilter">
+        <property name="redirectUrl" value="https://ycw.com/cas/logout?service=http://localhost/bye" />
     </bean>
 
 
 
     <import resource="classpath:activiti-context.xml"/>
     <import resource="classpath:spring-quartz.xml"/>
+    <import resource="classpath:spring-redis.xml"/>
 
 </beans>
